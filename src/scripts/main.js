@@ -207,7 +207,7 @@ function handleNotification(message) {
 		if (match) {
 			var queueId = match[1];
 			console.log('Conversations notification for queue: ' + queueId);
-			helpers.addOrUpdateConversation(queueId, data.eventBody);
+			addOrUpdateConversation(queueId, data.eventBody);
 			return;
 		}
 
@@ -227,7 +227,42 @@ function webSocketError(error) {
 	console.error(error);
 }
 
+function addOrUpdateConversation(queueId, conversation) {
+	//$('body').append('<pre>'+JSON.stringify(conversation)+'</pre>');
+	var participantCount = conversation.participants.length;
 
+	var participantsHtml = '';
+	$.each(conversation.participants, function(index, participant) {
+		var participantClass = helpers.isParticipantDisconnected(participant) ? 
+			'danger' : 
+			helpers.isParticipantConnected(participant) ?
+				'success' :
+				'';
+		participantsHtml += '<tr class="' + participantClass + '">';
+		if (index == 0)
+			participantsHtml += '<td rowspan="' + participantCount + '" style="background-color: #f5f5f5 !important">' + conversation.id + '</td>';
+		participantsHtml += helpers.generateParticipantDataCells(participant);
+		participantsHtml += '</tr>';
+	});
+
+	if ($('#' + conversation.id + '-data').length) {
+		$('#' + conversation.id + '-data').html(participantsHtml);
+	}
+	else {
+		$('#conversationsTable').append('<tbody id="' + conversation.id + '-data">' + participantsHtml + '</tbody>');
+	}
+
+	if (helpers.isConversationDisconnected(conversation) && 
+		helpers.isWrapupComplete(conversation)) {
+		// Everyone is disconnected and wrapup has been provided (or was not required)
+		// Remove conversation from UI in 10 seconds
+		setTimeout(function() {
+			$('#' + conversation.id + '-data').fadeOut(1000, function() {
+				$('#' + conversation.id + '-data').remove();
+			});
+		}, 10 * 1000);
+	}
+}
 
 
 
