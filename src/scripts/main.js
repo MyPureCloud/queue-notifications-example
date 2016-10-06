@@ -17,7 +17,7 @@ $(document).ready(function() {
 		environment: 'mypurecloud.com',
 		strategy: 'implicit',
 		clientId: '6a9c1924-d348-4f1b-bf4f-a8816ceb4230',
-		redirectUrl: 'https://localhost:8443/',
+		redirectUrl: window.location.href,
 		storageKey: 'queue-notifications-example-auth-token',
 		timeout: 10000
 	});
