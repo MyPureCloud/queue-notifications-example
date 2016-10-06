@@ -4,7 +4,7 @@
 
 A web page that allows a user to subscribe to queue notificaitons and displays active conversations.
 
-This app is also hosted on Github Pages. Try it now with your mypurecloud.com credentials at [https://mypurecloud.github.io/queue-notifications-example/src/](https://mypurecloud.github.io/queue-notifications-example/src/)
+Try it now with your mypurecloud.com credentials at [https://mypurecloud.github.io/queue-notifications-example/src/](https://mypurecloud.github.io/queue-notifications-example/src/)
 
 ![screenshot](screenshot.png)
 
@@ -34,6 +34,7 @@ This app is also hosted on Github Pages. Try it now with your mypurecloud.com cr
 ## Using the app
 
 1. Navigate to the page: [https://localhost:8443/](https://localhost:8443/)
+  1. This app is also hosted on Github Pages for access without running locally: [https://mypurecloud.github.io/queue-notifications-example/src/](https://mypurecloud.github.io/queue-notifications-example/src/)
 2. If not already authenticated, you will be redirected to log in to PureCloud.
 3. The list of queues will be populated at the top of the page. Scroll through the list and click the subscribe button to subscribe to the desired queues.
 4. Place calls into the queues to see the display populate.
