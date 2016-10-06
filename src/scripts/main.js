@@ -11,12 +11,6 @@ var _webSocket;
 var _channelId;
 var _queues = [];
 
-if (helpers.getParameterByName('extras').toLowerCase() != 'off') {
-	$.getScript('/scripts/extras.js', function(script, textStatus, jqXHR) {
-		console.log('Extras script loaded');
-	});
-}
-
 $(document).ready(function() {
 	// Create PC session
 	pureCloudSession = purecloud.platform.PureCloudSession({
@@ -57,6 +51,9 @@ $(document).ready(function() {
 
 			// Add to UI
 			helpers.displayQueuesList(_queues);
+
+			// Enable clipboard
+			new Clipboard('.clipbutton');
 		})
 		.catch(function(error){
 			console.error(error);
@@ -64,7 +61,7 @@ $(document).ready(function() {
 });
 
 // Get the list of queues. Returns a promise
-function getQueues(pageSize = 1, pageNumber = 1, sortBy, name, active) {
+function getQueues(pageSize = 100, pageNumber = 1, sortBy, name, active) {
 	return new Promise(function(fulfill, reject) { 
 		getQueuesImpl([], pageSize, pageNumber, sortBy, name, active, fulfill, reject);
 	});
@@ -228,7 +225,6 @@ function webSocketError(error) {
 }
 
 function addOrUpdateConversation(queueId, conversation) {
-	//$('body').append('<pre>'+JSON.stringify(conversation)+'</pre>');
 	var participantCount = conversation.participants.length;
 
 	var participantsHtml = '';
@@ -239,8 +235,15 @@ function addOrUpdateConversation(queueId, conversation) {
 				'success' :
 				'';
 		participantsHtml += '<tr class="' + participantClass + '">';
-		if (index == 0)
-			participantsHtml += '<td rowspan="' + participantCount + '" style="background-color: #f5f5f5 !important">' + conversation.id + '</td>';
+		if (index == 0) {
+			participantsHtml += 
+				'<td rowspan="' + participantCount + '">' + 
+					'<span id="id-' + conversation.id + '">'+ conversation.id +'</span>' + 
+					'<button class="clipbutton" data-clipboard-target="#id-' + conversation.id + '">' +
+		    			'<i class="fa fa-files-o" aria-hidden="true"></i>' +
+					'</button>' + 
+				'</td>';
+		}
 		participantsHtml += helpers.generateParticipantDataCells(participant);
 		participantsHtml += '</tr>';
 	});

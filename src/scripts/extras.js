@@ -1,1 +1,0 @@
-// UI stuff that has no knowledge of APIs or data. The page must function fully without this file.
