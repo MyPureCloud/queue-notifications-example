@@ -4,6 +4,8 @@
 
 A web page that allows a user to subscribe to queue notificaitons and displays active conversations.
 
+This app is also hosted on Github Pages. Try it now with your mypurecloud.com credentials at [https://mypurecloud.github.io/queue-notifications-example/src/](https://mypurecloud.github.io/queue-notifications-example/src/)
+
 # Running the app
 
 ## Prerequisites
